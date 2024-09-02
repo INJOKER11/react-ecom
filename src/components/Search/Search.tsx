@@ -1,4 +1,4 @@
-import React, {useCallback, useState} from 'react';
+import React, { useCallback, useState} from 'react';
 // @ts-ignore
 import debounce from 'lodash.debounce';
 import {useDispatch} from "react-redux";
@@ -11,13 +11,13 @@ const Search = () => {
   const [value, setValue] = useState('')
 
   const updateSearchValue = useCallback(
-      debounce((str: any) => {
+      debounce((str: string) => {
         dispatch(setSearch(str))
       }, 200),
       [dispatch]
   )
 
-  const onChangeSearch = (event: any) => {
+  const onChangeSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
     setValue(event.target.value);
     updateSearchValue(event.target.value)
   }

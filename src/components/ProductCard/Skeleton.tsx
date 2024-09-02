@@ -1,7 +1,7 @@
 import React from "react"
 import ContentLoader from "react-content-loader"
 
-const CardSkeleton = (props) => (
+const CardSkeleton = (props: any) => (
     <ContentLoader
         className='pizza-block'
         speed={2}

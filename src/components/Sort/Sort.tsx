@@ -2,7 +2,13 @@ import React, {useEffect, useRef, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {selectSort, setSort} from "../../redux/slices/filterSlice";
 
-export const list = [
+
+type ListItem = {
+  name: string;
+  sortProperty: string;
+}
+
+export const list: ListItem[] = [
   {name: 'популярности (DESC)', sortProperty: 'rating'},
   {name: 'популярности (ASC)', sortProperty: '-rating'},
   {name: 'цене (DESC)', sortProperty: 'price'},
@@ -11,29 +17,30 @@ export const list = [
   {name: 'алфавиту (ASC)', sortProperty: '-title'}
 ];
 
-export default function  Sort () {
-  const popupRef = useRef();
+const Sort: React.FC = () => {
+
+  const popupRef = useRef<HTMLDivElement>(null);
   const [isVisible, setIsVisible] = useState(false);
   const dispatch = useDispatch();
   const sort = useSelector(selectSort)
 
 
   useEffect(() => {
-    const handleClickOutside = (event) => {
-      if(!event.composedPath().includes(popupRef.current)){
+    const handleClickOutside = (event: MouseEvent) => {
+      if(popupRef.current && !event.composedPath().includes(popupRef.current)){
         setIsVisible(false)
       }
     }
     document.body.addEventListener('click', handleClickOutside);
 
-    // Component unmounting we delete eventlistener
+
     return () => {
       document.body.removeEventListener('click', handleClickOutside);
     }
   }, []);
 
 
-  const onClickList = (obj) => {
+  const onClickList = (obj: ListItem) => {
     dispatch(setSort(obj))
     setIsVisible(false)
   }
@@ -71,3 +78,5 @@ export default function  Sort () {
       </div>
   )
 }
+
+export default Sort;
