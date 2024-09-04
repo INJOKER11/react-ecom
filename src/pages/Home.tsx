@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, {useCallback, useEffect, useRef} from 'react';
 import qs from 'qs';
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
@@ -29,9 +29,9 @@ const Home: React.FC = () => {
   const sortType = sort.sortProperty
 
 
-  const onClickCategory = (id: number) => {
+  const onClickCategory = useCallback((id: number) => {
     dispatch(setCategoryId(id))
-  }
+  }, [])
 
   const pizzas = items.map((obj: any) => (<ProductCard {...obj} key={obj.imageUrl}/>));
 
@@ -101,7 +101,7 @@ const Home: React.FC = () => {
       <div className='container'>
         <div className="content__top">
           <Categories value={categoryId} onClickCategory={onClickCategory}/>
-          <Sort/>
+          <Sort value={sort}/>
         </div>
         <h2 className="content__title">Все пиццы</h2>
         <div className="content__items">
