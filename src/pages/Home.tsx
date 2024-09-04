@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import qs from 'qs';
-import {Link, useNavigate} from "react-router-dom";
-import {useDispatch, useSelector} from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 import Categories from "../components/Categories/Categories";
 import Sort, {list} from "../components/Sort/Sort";
@@ -10,16 +10,16 @@ import ProductCard from "../components/ProductCard/ProductCard";
 import Pagination from "../components/Pagination/Pagination";
 
 
-import {selectFilter, setCategoryId, setCurrentPage, setFilters} from "../redux/slices/filterSlice";
-import {fetchProducts, selectProductsData} from "../redux/slices/productsSlice";
-
+import { selectFilter, setCategoryId, setCurrentPage, setFilters} from "../redux/slices/filterSlice";
+import {fetchProducts, selectProductsData, TSearchProductParams} from "../redux/slices/productsSlice";
+import {useAppDispatch} from "../redux/store";
 
 
 
 
 const Home: React.FC = () => {
   const navigate = useNavigate();
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const isSearch = useRef(false)
   const isMounted = useRef(false)
 
@@ -29,30 +29,28 @@ const Home: React.FC = () => {
   const sortType = sort.sortProperty
 
 
-
-
   const onClickCategory = (id: number) => {
     dispatch(setCategoryId(id))
   }
 
-  const pizzas = items.map((obj: any) => (<Link to={`/product/${obj.id}`}>
-    <ProductCard {...obj} key={obj.id}/>
-  </Link>));
+  const pizzas = items.map((obj: any) => (<ProductCard {...obj} key={obj.imageUrl}/>));
 
-  const fetchPizzas = async () => {
+  const getProducts = async () => {
     const order = sortType.includes('-') ? 'asc' : 'desc';
     const sortBy = sortType.replace('-','');
     const category = categoryId > 0 ? `category=${categoryId}` : '';
     const search = searchValue ? `&search=${searchValue}` : '';
-    const params = {
-      order,
-      sortBy,
-      category,
-      search,
-      currentPage
-    }
+
     // @ts-ignore
-    dispatch(fetchProducts(params))
+    dispatch(
+        fetchProducts({
+          order,
+          sortBy,
+          category,
+          search,
+          currentPage
+        })
+    )
     window.scrollTo(0,0)
 
   }
@@ -64,7 +62,7 @@ const Home: React.FC = () => {
     if(isMounted.current){
       const queryString = qs.stringify({
         sortProperty: sort.sortProperty,
-        categoryId,
+        categoryId: categoryId > 0 ? categoryId : null,
         currentPage,
       })
       navigate(`?${queryString}`)
@@ -74,16 +72,16 @@ const Home: React.FC = () => {
 
   useEffect(() => {
     if(window.location.search) {
-      const params = qs.parse(window.location.search.substring(1))
+      const params = qs.parse(window.location.search.substring(1)) as unknown as TSearchProductParams
 
-      const sort = list.find((obj) => obj.sortProperty === params.sortProperty)
+      const sortObj = list.find((obj) => obj.sortProperty === params.sortBy)
 
-      dispatch(
-          setFilters({
-            ...params,
-            sort
-          })
-      )
+      dispatch(setFilters({
+        searchValue: params.search,
+        categoryId: Number(params.category),
+        currentPage: params.currentPage,
+        sort: sortObj || list[0]
+      }))
       isSearch.current = true
     }
   }, []);
@@ -91,7 +89,7 @@ const Home: React.FC = () => {
 
   useEffect(() => {
     if(!isSearch.current){
-      fetchPizzas()
+      getProducts()
     }
 
     isSearch.current = false;

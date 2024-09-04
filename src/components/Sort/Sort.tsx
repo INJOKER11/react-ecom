@@ -1,27 +1,28 @@
 import React, {useEffect, useRef, useState} from "react";
-import {useDispatch, useSelector} from "react-redux";
-import {selectSort, setSort} from "../../redux/slices/filterSlice";
+import { useSelector } from "react-redux";
+import {selectSort, setSort, SortProperty } from "../../redux/slices/filterSlice";
+import {useAppDispatch} from "../../redux/store";
 
 
 type ListItem = {
   name: string;
-  sortProperty: string;
+  sortProperty: SortProperty;
 }
 
 export const list: ListItem[] = [
-  {name: 'популярности (DESC)', sortProperty: 'rating'},
-  {name: 'популярности (ASC)', sortProperty: '-rating'},
-  {name: 'цене (DESC)', sortProperty: 'price'},
-  {name: 'цене (ASC)', sortProperty: '-price'},
-  {name: 'алфавиту (DESC)', sortProperty: 'title'},
-  {name: 'алфавиту (ASC)', sortProperty: '-title'}
+  {name: 'популярности (DESC)', sortProperty: SortProperty.RATING_DESC},
+  {name: 'популярности (ASC)', sortProperty: SortProperty.RATING},
+  {name: 'цене (DESC)', sortProperty: SortProperty.PRICE_DESC},
+  {name: 'цене (ASC)', sortProperty: SortProperty.PRICE},
+  {name: 'алфавиту (DESC)', sortProperty: SortProperty.TITLE_DESC},
+  {name: 'алфавиту (ASC)', sortProperty: SortProperty.TITLE}
 ];
 
 const Sort: React.FC = () => {
 
   const popupRef = useRef<HTMLDivElement>(null);
   const [isVisible, setIsVisible] = useState(false);
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const sort = useSelector(selectSort)
 
 
