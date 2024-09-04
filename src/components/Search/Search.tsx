@@ -2,7 +2,7 @@ import React, { useCallback, useState} from 'react';
 // @ts-ignore
 import debounce from 'lodash.debounce';
 import {useDispatch} from "react-redux";
-import {setSearch} from "../../redux/slices/filterSlice";
+import {setSearch} from "../../redux/filter/slice";
 
 import styles from './style.module.scss'
 

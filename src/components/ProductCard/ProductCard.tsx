@@ -1,8 +1,10 @@
 import React, {useState} from "react";
 import { useSelector} from "react-redux";
-import {addProduct, selectCartItemById, TCartProduct} from "../../redux/slices/cartSlice";
+import {addProduct} from "../../redux/cart/slice";
 import {useAppDispatch} from "../../redux/store";
 import {Link} from "react-router-dom";
+import {selectCartItemById} from "../../redux/cart/selectors";
+import {TCartProduct} from "../../redux/cart/types";
 
 
 type ProductCardProps = {

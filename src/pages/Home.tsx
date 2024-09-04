@@ -10,9 +10,12 @@ import ProductCard from "../components/ProductCard/ProductCard";
 import Pagination from "../components/Pagination/Pagination";
 
 
-import { selectFilter, setCategoryId, setCurrentPage, setFilters} from "../redux/slices/filterSlice";
-import {fetchProducts, selectProductsData, TSearchProductParams} from "../redux/slices/productsSlice";
+import { setCategoryId, setCurrentPage, setFilters} from "../redux/filter/slice";
 import {useAppDispatch} from "../redux/store";
+import {selectFilter} from "../redux/filter/selectors";
+import {selectProductsData} from "../redux/products/selectors";
+import {TSearchProductParams} from "../redux/products/types";
+import {fetchProducts} from "../redux/filter/asyncActions";
 
 
 
@@ -38,7 +41,7 @@ const Home: React.FC = () => {
   const getProducts = async () => {
     const order = sortType.includes('-') ? 'asc' : 'desc';
     const sortBy = sortType.replace('-','');
-    const category = categoryId > 0 ? `category=${categoryId}` : '';
+    const category = categoryId > 0 ? `category=${categoryId}` : '0';
     const search = searchValue ? `&search=${searchValue}` : '';
 
     // @ts-ignore
