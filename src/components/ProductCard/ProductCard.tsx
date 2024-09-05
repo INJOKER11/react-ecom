@@ -16,7 +16,7 @@ type ProductCardProps = {
   types: number[];
 }
 
-const ProductCart: React.FC<ProductCardProps> = ({id,title,imageUrl,price, sizes, types}) => {
+export const ProductCard: React.FC<ProductCardProps> = ({id,title,imageUrl,price, sizes, types}) => {
 
   const [activeType, setActiveType] = useState(0);
   const [activeSize, setActiveSize] = useState(0);
@@ -92,4 +92,3 @@ const ProductCart: React.FC<ProductCardProps> = ({id,title,imageUrl,price, sizes
   )
 }
 
-export default ProductCart;

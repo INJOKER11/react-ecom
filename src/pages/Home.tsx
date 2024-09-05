@@ -3,12 +3,8 @@ import qs from 'qs';
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 
-import Categories from "../components/Categories/Categories";
-import Sort, {list} from "../components/Sort/Sort";
-import Skeleton from "../components/ProductCard/Skeleton";
-import ProductCard from "../components/ProductCard/ProductCard";
-import Pagination from "../components/Pagination/Pagination";
-
+import {list} from "../components";
+import {Pagination, ProductCard, Skeleton, Sort, Categories} from "../components";
 
 import { setCategoryId, setCurrentPage, setFilters} from "../redux/filter/slice";
 import {useAppDispatch} from "../redux/store";

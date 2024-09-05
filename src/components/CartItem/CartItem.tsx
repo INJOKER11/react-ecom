@@ -12,7 +12,7 @@ type CartItemProps = {
   size: number,
   count: number,
 }
-const CartItem: React.FC<CartItemProps> = ({id, title, imageUrl, price, type, size ,count}) => {
+export const CartItem: React.FC<CartItemProps> = ({id, title, imageUrl, price, type, size ,count}) => {
   const dispatch = useDispatch();
 
   const onClickPlus = () => {
@@ -90,4 +90,3 @@ const CartItem: React.FC<CartItemProps> = ({id, title, imageUrl, price, type, si
   );
 };
 
-export default CartItem;

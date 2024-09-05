@@ -22,7 +22,7 @@ export const list: ListItem[] = [
   {name: 'алфавиту (ASC)', sortProperty: SortProperty.TITLE}
 ];
 
-const Sort: React.FC<TSortProps> = memo(({value}) => {
+export const Sort: React.FC<TSortProps> = memo(({value}) => {
 
   const popupRef = useRef<HTMLDivElement>(null);
   const [isVisible, setIsVisible] = useState(false);
@@ -84,4 +84,3 @@ const Sort: React.FC<TSortProps> = memo(({value}) => {
   )
 })
 
-export default Sort;
